@@ -1,0 +1,66 @@
+*{
+    border-radius: 10px;
+}
+
+h1{
+    margin:0;
+/*    border-radius : 10px;*/
+    box-shadow : 3px 3px 10px rgba(0,0,0,.6);
+    text-align:center;
+    font-size:3em;
+    padding: 20px;
+}
+
+h1 span{
+    font-size: 1.5em;
+}
+
+h2{
+    text-align: center;
+}
+
+#cards{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.character{
+    position: relative;
+    display:block;
+    float:left;
+    max-height: 250px;
+    box-shadow : 3px 3px 20px rgba(0,0,0,.3);
+    border: 2px solid #bbbbbb;
+/*    border-radius : 10px;*/
+    padding:5px;
+    margin:12px;
+    left: 5px;
+    cursor : pointer;
+}
+
+.character:hover{
+    animation: hover 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.character:active{
+    animation: click 0.2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hover{
+    100%{
+        opacity: 0.5;
+        transform: scale(1.1);
+        background-color: steelblue;
+    }
+}
+
+@keyframes click{
+    100%{
+        opacity: 1;
+        transform: scale(1.2);
+        background-color: steelblue;
+    }
+}
