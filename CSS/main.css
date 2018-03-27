@@ -6,11 +6,10 @@
 
 h1{
     margin:0;
-/*    border-radius : 10px;*/
     box-shadow : 3px 3px 10px rgba(0,0,0,.6);
     text-align:center;
     font-size:3em;
-    padding: 20px;
+    padding: 10px;
 }
 
 h1 span{
@@ -19,6 +18,45 @@ h1 span{
 
 h2{
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#feedback{
+    color: white;
+    background-color: darkgrey;
+    font-size: 1.25em;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 2.5px;
+    border-radius: 20px;
+}
+
+#button{
+    color: white;
+    background-color: darkgrey;
+    font-size: 1.25em;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 2.5px;
+    border-radius: 20px;
+    border-color: #105688;
+    border: solid 1px #105688;
+    border-right: solid 3px #105688;
+    border-bottom: solid 4px #105688;
+    background: #177EC8;
+    background: linear-gradient(top, #8fc800 0%,#438c00 100%);
+    cursor: pointer;
+}
+
+#button:hover{
+    animation: hoverBtn 0.1s;
+    animation-fill-mode: forwards;
+}
+
+#button:active{
+    animation: clickBtn 0.1s;
+    animation-fill-mode: forwards;
 }
 
 #cards{
@@ -34,16 +72,15 @@ h2{
     position: relative;
     display:block;
     float:left;
-/*    max-height: 250px;*/
-    width: 200px;
-    height: 200px;
+    width: 175px;
+    height: 175px;
     box-shadow : 3px 3px 20px rgba(0,0,0,.3);
     border: 2px solid #bbbbbb;
-/*    border-radius : 10px;*/
     padding:5px;
     margin:12px;
     left: 5px;
     cursor : pointer;
+    margin-top: 0px;
 }
 
 .character img{
@@ -81,7 +118,22 @@ h2{
 @keyframes click{
     100%{
         opacity: 1;
-        transform: scale(1.2);
+        transform: scale(0.8);
+        background-color: steelblue;
+    }
+}
+
+@keyframes hoverBtn{
+    100%{
+/*        opacity: 0.5;*/
+        transform: scale(1.01);
+        background: #1886D5;
+    }
+}
+
+@keyframes clickBtn{
+    100%{
+        transform: scale(0.95);
         background-color: steelblue;
     }
 }
