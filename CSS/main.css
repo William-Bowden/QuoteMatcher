@@ -18,22 +18,22 @@
 }
 
 h1{
-    background-color: white;
-    box-shadow : 3px 3px 10px rgba(0,0,0,.6);
-    text-align:center;
-    font-size:3em;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    font-size: 3em;
     padding: 10px;
-    margin:0;
+    margin: 0;
     margin-left: 5%;
 	margin-right: 5%;
-    
 }
 
 h1 span{
     font-size: 1.5em;
 }
 
-h2{
+#quote{
+    font-size: 1.4em;
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -53,8 +53,8 @@ h2{
     color: white;
     background-color: darkgrey;
     font-size: 1.25em;
-    margin-left: 37%;
-    margin-right: 37%;
+    margin-left: 37.5%;
+    margin-right: 37.5%;
     padding: 2.5px;
     border-radius: 20px;
     border-color: #105688;
@@ -87,32 +87,34 @@ h2{
 
 .character{
     position: relative;
-    display:block;
-    float:left;
-    width: 175px;
-    height: 175px;
-    box-shadow : 3px 3px 20px rgba(0,0,0,.3);
+    display: block;
+    float: left;
+    width: 125px;
+    height: 125px;
+    box-shadow: 3px 3px 20px rgba(0,0,0,.3);
     border: 2px solid #bbbbbb;
-    padding:5px;
-    margin:12px;
+    padding: 5px;
+    margin: 12px;
     left: 5px;
-    cursor : pointer;
+    cursor: pointer;
     margin-top: 0px;
-    background-color: white;
+    background-color: rgba(255,255,255,0.5);
 }
 
 .character img{
     position: relative;
     width: 85%;
+/*    height: 75%;*/
 }
 
 .character p{
     position: absolute;
-    width: 95%;
     font-family: 'IM Fell DW Pica', serif;
-    font-size:18px;
-    font-weight:bold;
+    font-size: 18px;
+    font-weight: bold;
+    width: 95%;
     margin: 0px;
+    bottom: 2px;
 }
 
 .character:hover{
@@ -127,7 +129,7 @@ h2{
 
 @keyframes hover{
     100%{
-        opacity: 0.5;
+        opacity: 0.85;
         transform: scale(1.1);
         background-color: steelblue;
     }
@@ -143,7 +145,6 @@ h2{
 
 @keyframes hoverBtn{
     100%{
-/*        opacity: 0.5;*/
         transform: scale(1.01);
         background: #1886D5;
     }
@@ -157,8 +158,35 @@ h2{
 }
 
 @media only screen and (max-width: 1040px) {
+    h1{
+        font-size: 2em;
+    }
+    #quote{
+        font-size: 1.2em;
+    }
     #cards{
         margin-left: 5%;
         margin-right: 5%;
+    }
+    .character{
+        margin: 3px;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    h1{
+        font-size: 1.5em;
+    }
+    #quote{
+        font-size: 1em;
+    }
+    #cards{
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .character{
+        margin: 1.5px;
+        width: 100px;
+        height: 100px;
     }
 }

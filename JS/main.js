@@ -4,9 +4,10 @@ let currentQuote = 0;
 let prevQuote = 0;
 let feedback = 0;
 let nextBtn = 0;
+let timeout = 0;
 
 let quotes = [
-            {author:"Michael", quote:"Michael quote 1"},
+            {author:"Michael", quote:"WHERE... ARE... THE TURTLES!"},
             {author:"Michael", quote:"Michael quote 2"},
             {author:"Michael", quote:"Michael quote 3"},
             {author:"Jim", quote:"Jim quote 1"},
@@ -15,7 +16,17 @@ let quotes = [
             {author:"Andy", quote:"Andy quote 1"},
             {author:"Angela", quote:"Angela quote 1"},
             {author:"Toby", quote:"Toby quote 1"},
-            {author:"Stanley", quote:"Stanley quote 1"}
+            {author:"Stanley", quote:"Stanley quote 1"},
+            {author:"Creed", quote:"Creed quote 1"},
+            {author:"Darryl", quote:"Darryl quote 1"},
+            {author:"Erin", quote:"Erin quote 1"},
+            {author:"Holly", quote:"Holly quote 1"},
+            {author:"Kelly", quote:"Kelly quote 1"},
+            {author:"Kevin", quote:"Kevin quote 1"},
+            {author:"Meredith", quote:"Meredith quote 1"},
+            {author:"Oscar", quote:"Oscar quote 1"},
+            {author:"Phyllis", quote:"Phyllis quote 1"},
+            {author:"Ryan", quote:"Ryan quote 1"}
         ];
 
 function newQuote(){
@@ -67,16 +78,16 @@ let checkAnswer = (e) => {
         feedback.innerHTML = "Correct!";
         feedback.style.backgroundColor = "green";
         
-        //THIS MIGHT BE JUST FOR TESTING
-        newQuote();
-        //THIS MIGHT BE JUST FOR TESTING
-        
+        newQuote();        
     }
     else{
         feedback.innerHTML = "Incorrect.";
         feedback.style.backgroundColor = "red";
     }
-        
+    
+    // if there is a pending timeout, clear it to prevent ui changing 'too quickly'
+    clearTimeout(timeout);
+    
     // reset the feedback ui after 2 seconds
-    setTimeout(resetUI, 2000);
+    timeout = setTimeout(resetUI, 2000);
 }
