@@ -42,21 +42,16 @@ h1 span{
     border-radius: 20px;
 }
 
-#button{
+#score{
     color: white;
-    background-color: darkgrey;
     font-size: 1.25em;
     margin-left: 37.5%;
     margin-right: 37.5%;
     padding: 2.5px;
     border-radius: 20px;
     border-color: #105688;
-    border: solid 1px #105688;
-    border-right: solid 3px #105688;
-    border-bottom: solid 4px #105688;
     background: #177EC8;
     background: linear-gradient(top, #8fc800 0%,#438c00 100%);
-    cursor: pointer;
 }
 
 #button:hover{

@@ -1,10 +1,13 @@
-let characters = 0;
 let pageQuote = 0;
 let currentQuote = 0;
 let prevQuote = 0;
-let feedback = 0;
-let nextBtn = 0;
 let timeout = 0;
+
+let scoreLbl = 0;
+let score = 0;
+let attempts = 0;
+let numOfQuotes = 3; //probably going to be ~15/20
+let allowAnswer = true;
 
 let quotes = [
             {author:"Michael", quote:"WHERE... ARE... THE TURTLES!"},
@@ -29,9 +32,36 @@ let quotes = [
             {author:"Ryan", quote:"Ryan quote 1"}
         ];
 
-function newQuote(){
-    prevQuote = currentQuote;
+
+window.onload = (e) => {
+    setupGame();    
+};
+
+function setupGame(){
+    // set/reset game variables
+    currentQuote = 0;
+    prevQuote = 0;
+    timeout = 0;
     
+    score = 0;
+    attempts = 0;
+    allowAnswer = true;
+    
+    pageQuote = document.querySelector("#quote");
+    scoreLbl = document.querySelector("#score");
+    let characters = document.querySelectorAll(".character");
+    
+    newQuote();
+    
+    for(let i = 0; i < characters.length; i++){
+        characters[i].addEventListener("click", checkAnswer);
+        
+        let characterName = characters[i].dataset.name;
+        characters[i].querySelector("p").innerHTML = characterName;
+    }
+}
+
+function newQuote(){    
     // don't ask the same quote two times in a row
     while(currentQuote == prevQuote){
         i = Math.floor(Math.random() * Math.floor(quotes.length));
@@ -45,29 +75,22 @@ function resetUI(){
     pageQuote.style.backgroundColor = "dimgrey";
     pageQuote.innerHTML = currentQuote.quote;
     
+    allowAnswer = true;
+    
     newQuote();
 }
 
-window.onload = (e) => {
-    pageQuote = document.querySelector("#quote");
-    characters = document.querySelectorAll(".character");
-    feedback = document.querySelector("#feedback");
-    nextBtn = document.querySelector("#button");
-    
-    nextBtn.addEventListener("click", newQuote);
-    
-    newQuote();
-    
-    for(let i = 0; i < characters.length; i++){
-        characters[i].addEventListener("click", checkAnswer);
-        
-        let characterName = characters[i].dataset.name;
-        characters[i].querySelector("p").innerHTML = characterName;
-    }
-    
-};
+function updateScore(){
+    scoreLbl.innerHTML = score + " / " + attempts;
+}
 
 let checkAnswer = (e) => {
+    // if the user is not allowed to answer
+    if(!allowAnswer){
+        // return out of the function
+        return;
+    }
+    
     let card = e.target;
     
     // if the name or image are clicked, correct the target to the div
@@ -77,19 +100,44 @@ let checkAnswer = (e) => {
     
     // check div clicked against the current quotes author
     if(card.dataset.name == currentQuote.author){
-//        pageQuote.innerHTML = "Correct!";
-        pageQuote.style.backgroundColor = "green";       
+        pageQuote.style.backgroundColor = "green";
+        
+        // checks to make sure the answer wasn't clicked multiple times
+        if(currentQuote != prevQuote){
+            score += 1;
+            attempts += 1;
+        }
     }
     else{
-//        pageQuote.innerHTML = "Incorrect.";
         pageQuote.style.backgroundColor = "red";
         
-        
+        // checks to make sure the answer wasn't clicked multiple times
+        if(currentQuote != prevQuote){
+            attempts += 1;
+        }
     }
+        
+    // set this quote as done, therefore the previous
+    prevQuote = currentQuote;
     
-    // if there is a pending timeout, clear it to prevent ui changing 'too quickly'
+    allowAnswer = false;
+    
+    updateScore();
+    
+    // if there is a pending timeout, clear it to prevent ui changing unexpectedly
     clearTimeout(timeout);
     
-    // reset the feedback ui after 2 seconds
-    timeout = setTimeout(resetUI, 2000);
+    if(attempts < numOfQuotes){
+        // reset the feedback ui after 2 seconds
+        timeout = setTimeout(resetUI, 1000);
+    }
+    else{
+        // game is complete!
+        gameover();
+    }
+}
+
+function gameover(){
+    // replace with some HTML way of displaying final score & restart button
+    console.log("You scored " + Math.ceil((score/attempts) * 100) + "%");
 }
