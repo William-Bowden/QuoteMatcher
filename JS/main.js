@@ -42,8 +42,10 @@ function newQuote(){
 }
 
 function resetUI(){
-    feedback.style.backgroundColor = "darkgrey";
-    feedback.innerHTML = "Who said this quote?";
+    pageQuote.style.backgroundColor = "dimgrey";
+    pageQuote.innerHTML = currentQuote.quote;
+    
+    newQuote();
 }
 
 window.onload = (e) => {
@@ -75,14 +77,14 @@ let checkAnswer = (e) => {
     
     // check div clicked against the current quotes author
     if(card.dataset.name == currentQuote.author){
-        feedback.innerHTML = "Correct!";
-        feedback.style.backgroundColor = "green";
-        
-        newQuote();        
+//        pageQuote.innerHTML = "Correct!";
+        pageQuote.style.backgroundColor = "green";       
     }
     else{
-        feedback.innerHTML = "Incorrect.";
-        feedback.style.backgroundColor = "red";
+//        pageQuote.innerHTML = "Incorrect.";
+        pageQuote.style.backgroundColor = "red";
+        
+        
     }
     
     // if there is a pending timeout, clear it to prevent ui changing 'too quickly'
