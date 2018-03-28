@@ -81,7 +81,7 @@ function resetUI(){
 }
 
 function updateScore(){
-    scoreLbl.innerHTML = score + " / " + attempts;
+    scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
 }
 
 let checkAnswer = (e) => {
