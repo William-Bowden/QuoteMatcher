@@ -6,7 +6,7 @@ let timeout = 0;
 let scoreLbl = 0;
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 3; //probably going to be ~15/20
+let numOfQuotes = 10; //probably going to be ~15/20
 let allowAnswer = true;
 
 let quotes = [
@@ -159,6 +159,5 @@ let checkAnswer = (e) => {
 }
 
 function gameover(){
-    // replace with some HTML way of displaying final score & restart button
-    console.log("You scored " + Math.ceil((score/attempts) * 100) + "%");
+    scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
 }
