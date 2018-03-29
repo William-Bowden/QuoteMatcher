@@ -77,8 +77,8 @@ h1 span{
     position: relative;
     display: block;
     float: left;
-    width: 125px;
-    height: 125px;
+    width: 150px;
+    height: 150px;
     box-shadow: 3px 3px 20px rgba(0,0,0,.3);
     border: 2px solid #bbbbbb;
     padding: 5px;
@@ -156,7 +156,9 @@ h1 span{
         margin-left: 5%;
         margin-right: 5%;
     }
-    .character{
+    .character{       
+        width: 125px;
+        height: 125px;
         margin: 3px;
     }
 }
