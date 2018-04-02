@@ -38,7 +38,7 @@ h1 span{
     font-size: 1.25em;
     margin-left: 25%;
     margin-right: 25%;
-    padding: 2.5px;
+    padding: 10px;
     border-radius: 20px;
 }
 
@@ -52,16 +52,6 @@ h1 span{
     border-color: #105688;
     background: #177EC8;
     background: linear-gradient(top, #8fc800 0%,#438c00 100%);
-}
-
-#button:hover{
-    animation: hoverBtn 0.1s;
-    animation-fill-mode: forwards;
-}
-
-#button:active{
-    animation: clickBtn 0.1s;
-    animation-fill-mode: forwards;
 }
 
 #cards{

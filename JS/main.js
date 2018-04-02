@@ -2,6 +2,7 @@ let pageQuote = 0;
 let currentQuote = 0;
 let prevQuote = 0;
 let timeout = 0;
+let usedQuotes = [];
 
 let scoreLbl = 0;
 let score = 0;
@@ -82,12 +83,19 @@ function setupGame(){
     }
 }
 
-function newQuote(){    
-    // don't ask the same quote two times in a row
-    while(currentQuote == prevQuote){
-        i = Math.floor(Math.random() * Math.floor(quotes.length));
-        currentQuote = quotes[i];
+function newQuote(){
+    i = Math.floor(Math.random() * Math.floor(quotes.length));
+    currentQuote = quotes[i];
+    
+    // loop through to check if this quote has been used
+    for(obj of usedQuotes){
+        if( obj.quote == currentQuote.quote ){      
+            newQuote();
+            return;
+        }
     }
+    
+    usedQuotes.push(currentQuote);
     
     pageQuote.innerHTML = `<em>"${currentQuote.quote}"</em>`;
 }
@@ -137,6 +145,8 @@ let checkAnswer = (e) => {
             attempts += 1;
         }
     }
+    
+    pageQuote.innerHTML += " - " + currentQuote.author;
         
     // set this quote as done, therefore the previous
     prevQuote = currentQuote;
