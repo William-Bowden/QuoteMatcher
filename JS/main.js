@@ -5,6 +5,7 @@ let prevQuote = 0;
 let timeout = 0;
 let usedQuotes = [];
 let characters = 0;
+let hintBtn=0;
 
 let scoreLbl = 0;
 let score = 0;
@@ -58,10 +59,10 @@ let quotes = [
 
 
 window.onload = (e) => {
-    let hintBtn = document.querySelector("#hint");
+    hintBtn = document.querySelector(".hint");
     setupGame();
     cards = document.querySelectorAll(".card");
-    hintBtn.addEventListener("click", useHint);
+    hintBtn.addEventListener("click", narrowDown);
 };
 
 function setupGame(){
@@ -111,9 +112,12 @@ function resetUI(){
     
     allowAnswer = true;
     
-    for(card of characters){
+    for(card of document.querySelectorAll(".inactive")){
         card.classList.remove("inactive");
     }
+    
+    hintBtn.classList.add("activeBtn");
+    hintBtn.classList.remove("inactive");
     
     newQuote();
 }
@@ -125,7 +129,7 @@ function updateScore(){
 let checkAnswer = (e) => {
     // if the user is not allowed to answer
     if(!allowAnswer){
-        // return out of the function
+        // leave/return out of the function
         return;
     }
     
@@ -136,23 +140,22 @@ let checkAnswer = (e) => {
         card = card.parentNode;
     }
     
+    // if the card is inactive
+    if( card.classList.contains("inactive")){
+        // leave/return out of the function
+        return;
+    }
+    
     // check div clicked against the current quotes author
     if(card.dataset.name == currentQuote.author){
         pageQuote.style.backgroundColor = "green";
-        
-        // checks to make sure the answer wasn't clicked multiple times
-        if(currentQuote != prevQuote){
-            score += 1;
-            attempts += 1;
-        }
+        score += 1;
+        attempts += 1;
     }
     else{
         pageQuote.style.backgroundColor = "red";
         
-        // checks to make sure the answer wasn't clicked multiple times
-        if(currentQuote != prevQuote){
-            attempts += 1;
-        }
+        attempts += 1;
     }
     
     pageQuote.innerHTML += " - " + currentQuote.author;
@@ -177,19 +180,43 @@ let checkAnswer = (e) => {
     }
 }
 
-let useHint = (e) => {
-        
-    for(card of characters){
-        if(currentQuote.author != card.dataset.name){
-            i = Math.random();
-            if( i < 0.5 ){
-               card.classList.add("inactive");
+let narrowDown = (e) => {
+    
+    if(e.target.classList.contains("inactive")){
+        return;
+    }
+    
+    let numDisabled = 0;
+    
+    while(numDisabled < (characters.length/2)){
+        for(card of characters){
+            if(currentQuote.author != card.dataset.name){
+                i = Math.random();
+                if( i < 0.5 ){
+                   card.classList.add("inactive");
+                    numDisabled++;
+                    
+                    if(numDisabled >= (characters.length/2)){
+                        break;
+                    }
+                }
             }
         }
     }
+
+    
+    e.target.classList.add("inactive");
+    e.target.classList.remove("activeBtn");
     
 }
 
 function gameover(){
     scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
+    
+    for(card of characters){
+       card.classList.add("inactive");
+    }
+    
+    hintBtn.classList.add("inactive")
+    
 }
