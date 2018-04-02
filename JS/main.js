@@ -1,8 +1,10 @@
 let pageQuote = 0;
+let cards = 0;
 let currentQuote = 0;
 let prevQuote = 0;
 let timeout = 0;
 let usedQuotes = [];
+let characters = 0;
 
 let scoreLbl = 0;
 let score = 0;
@@ -56,7 +58,10 @@ let quotes = [
 
 
 window.onload = (e) => {
-    setupGame();    
+    let hintBtn = document.querySelector("#hint");
+    setupGame();
+    cards = document.querySelectorAll(".card");
+    hintBtn.addEventListener("click", useHint);
 };
 
 function setupGame(){
@@ -71,7 +76,7 @@ function setupGame(){
     
     pageQuote = document.querySelector("#quote");
     scoreLbl = document.querySelector("#score");
-    let characters = document.querySelectorAll(".character");
+    characters = document.querySelectorAll(".character");
     
     newQuote();
     
@@ -105,6 +110,10 @@ function resetUI(){
     pageQuote.innerHTML = currentQuote.quote;
     
     allowAnswer = true;
+    
+    for(card of characters){
+        card.classList.remove("inactive");
+    }
     
     newQuote();
 }
@@ -166,6 +175,19 @@ let checkAnswer = (e) => {
         // game is complete!
         gameover();
     }
+}
+
+let useHint = (e) => {
+        
+    for(card of characters){
+        if(currentQuote.author != card.dataset.name){
+            i = Math.random();
+            if( i < 0.5 ){
+               card.classList.add("inactive");
+            }
+        }
+    }
+    
 }
 
 function gameover(){

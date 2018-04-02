@@ -42,7 +42,7 @@ h1 span{
     border-radius: 20px;
 }
 
-#score{
+#score, #hint{
     color: white;
     font-size: 1.25em;
     margin-left: 37.5%;
@@ -52,6 +52,14 @@ h1 span{
     border-color: #105688;
     background: #177EC8;
     background: linear-gradient(top, #8fc800 0%,#438c00 100%);
+}
+
+#hint{
+    border: solid 1px black;
+}
+
+#hint:hover{
+    transform: scale(1.1);
 }
 
 #cards{
@@ -103,6 +111,10 @@ h1 span{
 .character:active{
     animation: click 0.25s;
     animation-fill-mode: forwards;
+}
+
+.inactive {
+    background-color: black;
 }
 
 @keyframes hover{
