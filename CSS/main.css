@@ -58,7 +58,7 @@ h1 span{
     border-right: solid 2px black;
     border-bottom: solid 2px black;
     font-size: 1.25em;
-    background-color: dimgrey;
+    background-color: grey;
     cursor: pointer;
 }
 
@@ -141,7 +141,7 @@ h1 span{
     100%{
         opacity: 0.85;
         transform: scale(1.1);
-        background-color: steelblue;
+        background-color: palegoldenrod;
     }
 }
 
@@ -149,21 +149,21 @@ h1 span{
     100%{
         opacity: 1;
         transform: scale(0.8);
-        background-color: steelblue;
+        background-color: goldenrod;
     }
 }
 
 @keyframes hoverBtn{
     100%{
         transform: scale(1.1);
-        background: grey;
+        background: darkgrey;
     }
 }
 
 @keyframes clickBtn{
     100%{
         transform: scale(0.95);
-        background-color: darkslategrey;
+        background-color: dimgrey;
     }
 }
 

@@ -10,7 +10,7 @@ let hintBtn=0;
 let scoreLbl = 0;
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 10; //probably going to be ~15/20
+let numOfQuotes = 2; //probably going to be ~15/20
 let allowAnswer = true;
 
 let quotes = [
@@ -56,7 +56,6 @@ let quotes = [
             {author:"Ryan", quote:"It’s called ‘owling.’ You’ll read about it in like eight months"},
             {author:"Ryan", quote:"Origami. It’s the sushi of paper."}
         ];
-
 
 window.onload = (e) => {
     hintBtn = document.querySelector(".hint");
@@ -188,12 +187,12 @@ let narrowDown = (e) => {
     
     let numDisabled = 0;
     
-    while(numDisabled < (characters.length/2)){
+    while(numDisabled < (characters.length * 3/4)){
         for(card of characters){
             if(currentQuote.author != card.dataset.name){
                 i = Math.random();
                 if( i < 0.5 ){
-                   card.classList.add("inactive");
+                    card.classList.add("inactive");
                     numDisabled++;
                     
                     if(numDisabled >= (characters.length/2)){
