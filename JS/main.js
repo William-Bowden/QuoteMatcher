@@ -5,12 +5,11 @@ let prevQuote = 0;
 let timeout = 0;
 let usedQuotes = [];
 let characters = 0;
-let hintBtn=0;
+let hintBtn = 0;
 
-let scoreLbl = 0;
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 2; //probably going to be ~15/20
+let numOfQuotes = 10; //probably going to be ~15/20
 let allowAnswer = true;
 
 let quotes = [
@@ -42,7 +41,7 @@ let quotes = [
             {author:"Erin", quote:"Disposable cameras are fun, although it does seem wasteful. And you don’t ever get to you see your pictures."},
             {author:"Erin", quote:"Do you have a favorite age? Or month?"},
             {author:"Holly", quote:"Your wife becoming be will I"},
-            {author:"Holly", quote:"Lets get ethical, ethical."},
+            {author:"Holly", quote:"&#9835 Lets get ethical, ethical. &#9835"},
             {author:"Kelly", quote:"I don't talk trash, I talk smack. They're totally different."},
             {author:"Kelly", quote:"I talk a lot, so I’ve learned to just tune myself out ."},
             {author:"Kevin", quote:"I have very little patience for stupidity."},
@@ -58,10 +57,11 @@ let quotes = [
         ];
 
 window.onload = (e) => {
+    pageQuote = document.querySelector("#quote");
+    characters = document.querySelectorAll(".character");
     hintBtn = document.querySelector(".hint");
-    setupGame();
     cards = document.querySelectorAll(".card");
-    hintBtn.addEventListener("click", narrowDown);
+    setupGame();
 };
 
 function setupGame(){
@@ -69,32 +69,41 @@ function setupGame(){
     currentQuote = 0;
     prevQuote = 0;
     timeout = 0;
-    
     score = 0;
     attempts = 0;
     allowAnswer = true;
     
-    pageQuote = document.querySelector("#quote");
-    scoreLbl = document.querySelector("#score");
-    characters = document.querySelectorAll(".character");
+    resetUI();
     
-    newQuote();
-    
+    // loop through and characters
     for(let i = 0; i < characters.length; i++){
+        // add eventListener to characters
         characters[i].addEventListener("click", checkAnswer);
         
+        // assign character name to character card
         let characterName = characters[i].dataset.name;
         characters[i].querySelector("p").innerHTML = characterName;
     }
+    
+    hintBtn.innerHTML = "Narrow it Down!";
+    hintBtn.addEventListener("click", narrowDown);
+    hintBtn.removeEventListener("click", setupGame);
+    hintBtn.classList.remove("inactive");
+
+    // set initial score UI
+    updateScore();
 }
 
 function newQuote(){
+    // grab a random quote
     i = Math.floor(Math.random() * Math.floor(quotes.length));
     currentQuote = quotes[i];
     
-    // loop through to check if this quote has been used
+    // loop through the list of used quotes
     for(obj of usedQuotes){
-        if( obj.quote == currentQuote.quote ){      
+        // if the chosen quote has been used
+        if( obj.quote == currentQuote.quote ){
+            // retry, grab a new quote
             newQuote();
             return;
         }
@@ -106,22 +115,23 @@ function newQuote(){
 }
 
 function resetUI(){
+    // reset quote color
     pageQuote.style.backgroundColor = "dimgrey";
-    pageQuote.innerHTML = currentQuote.quote;
     
     allowAnswer = true;
     
-    for(card of document.querySelectorAll(".inactive")){
+    // for all elements that are inactive
+    for(card of document.querySelectorAll("#cards .inactive")){
+        // remove inactivity
         card.classList.remove("inactive");
     }
     
-    hintBtn.classList.add("activeBtn");
-    hintBtn.classList.remove("inactive");
-    
+    // grab a new quote
     newQuote();
 }
 
 function updateScore(){
+    let scoreLbl = document.querySelector("#score");
     scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
 }
 
@@ -146,11 +156,13 @@ let checkAnswer = (e) => {
     }
     
     // check div clicked against the current quotes author
+    // correct
     if(card.dataset.name == currentQuote.author){
         pageQuote.style.backgroundColor = "green";
         score += 1;
         attempts += 1;
     }
+    // incorrect
     else{
         pageQuote.style.backgroundColor = "red";
         
@@ -181,20 +193,26 @@ let checkAnswer = (e) => {
 
 let narrowDown = (e) => {
     
+    // if the button is inactive, "cancel" the action
     if(e.target.classList.contains("inactive")){
         return;
     }
     
     let numDisabled = 0;
     
+    // while less than 3/4ths of characters are disabled
     while(numDisabled < (characters.length * 3/4)){
+        // check each card
         for(card of characters){
+            // if not the author of the current quote 
             if(currentQuote.author != card.dataset.name){
+                // 50% chance of turning inactive
                 i = Math.random();
                 if( i < 0.5 ){
                     card.classList.add("inactive");
                     numDisabled++;
                     
+                    // if at least half of the characters are inactive, leave the loop
                     if(numDisabled >= (characters.length/2)){
                         break;
                     }
@@ -203,19 +221,22 @@ let narrowDown = (e) => {
         }
     }
 
-    
-    e.target.classList.add("inactive");
-    e.target.classList.remove("activeBtn");
-    
+    // deactivate the hintBtn(narrow it down button)
+    e.target.classList.add("inactive");    
 }
 
 function gameover(){
+    let scoreLbl = document.querySelector("#score");
     scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
     
+    // deactivate all cards
     for(card of characters){
        card.classList.add("inactive");
     }
     
-    hintBtn.classList.add("inactive")
+    // set the hintBtn to act as a replay button and remove and inactivity
+    hintBtn.innerHTML = "Replay!";
+    hintBtn.addEventListener("click", setupGame);
+    hintBtn.classList.remove("inactive");
     
 }
