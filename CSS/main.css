@@ -10,7 +10,7 @@
 	margin-right: auto;
 	width: 100%;
 	height: 100%;
-    position: fixed; 
+    position: fixed;
     left: 0px; 
     top: 0px; 
     z-index: -1;
@@ -32,6 +32,16 @@ h1 span{
     font-size: 1.5em;
 }
 
+#timeRim{
+    background-color: black;
+    margin-left: 25%;
+    margin-right: 25%;
+    border: solid 2px black;
+}
+#time{
+    background-color: white;
+}
+
 #quote{
     color: white;
     background-color: dimgrey;
@@ -44,8 +54,8 @@ h1 span{
 
 #score, .hint{
     color: white;
-    margin-left: 37.5%;
-    margin-right: 37.5%;
+    margin-left: 45%;
+    margin-right: 45%;
     padding: 2.5px;
     border-radius: 20px;
     border-color: #105688;
@@ -62,12 +72,12 @@ h1 span{
     cursor: pointer;
 }
 
-.activeBtn:hover{
+.hint:hover{
     animation: hoverBtn 0.5s;
     animation-fill-mode: forwards;
 }
 
-.activeBtn:active{
+.hint:active{
     animation: clickBtn 0.5s;
     animation-fill-mode: forwards;
 }
@@ -141,7 +151,7 @@ h1 span{
     100%{
         opacity: 0.85;
         transform: scale(1.1);
-        background-color: palegoldenrod;
+        background-color: rgba(135,206,250, 0.75);
     }
 }
 
@@ -149,7 +159,7 @@ h1 span{
     100%{
         opacity: 1;
         transform: scale(0.8);
-        background-color: goldenrod;
+        background-color: rgba(135,206,250, 1);
     }
 }
 
@@ -167,12 +177,17 @@ h1 span{
     }
 }
 
-@media only screen and (max-width: 1040px) {
+@media only screen and (max-width: 1120px) {
     h1{
         font-size: 2em;
     }
     #quote{
         font-size: 1.2em;
+    }
+    #score, .hint{
+        
+    margin-left: 37.5%;
+    margin-right: 37.5%;
     }
     #cards{
         margin-left: 5%;

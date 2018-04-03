@@ -5,7 +5,9 @@ let prevQuote = 0;
 let timeout = 0;
 let usedQuotes = [];
 let characters = 0;
-let hintBtn = 0;
+let hintBtns = 0;
+let timer = 0;
+let timerPercent = 0;
 
 let score = 0;
 let attempts = 0;
@@ -59,10 +61,18 @@ let quotes = [
 window.onload = (e) => {
     pageQuote = document.querySelector("#quote");
     characters = document.querySelectorAll(".character");
-    hintBtn = document.querySelector(".hint");
+    hintBtns = document.querySelectorAll(".hint");
     cards = document.querySelectorAll(".card");
+    tick();
     setupGame();
 };
+
+function tick(){
+    setTimeout(tick, 20);
+    timerPercent += 0.1;
+    time.style.marginRight = timerPercent + "%";
+    console.log(time.style.marginRight);
+}
 
 function setupGame(){
     // set/reset game variables
@@ -72,6 +82,8 @@ function setupGame(){
     score = 0;
     attempts = 0;
     allowAnswer = true;
+    
+    timer = document.querySelector("#time");
     
     resetUI();
     
@@ -85,10 +97,20 @@ function setupGame(){
         characters[i].querySelector("p").innerHTML = characterName;
     }
     
-    hintBtn.innerHTML = "Narrow it Down!";
-    hintBtn.addEventListener("click", narrowDown);
-    hintBtn.removeEventListener("click", setupGame);
-    hintBtn.classList.remove("inactive");
+    // setup Narrow it down button
+    hintBtns[0].innerHTML = "Narrow it Down!";
+    hintBtns[0].addEventListener("click", narrowDown);
+    hintBtns[0].removeEventListener("click", setupGame);
+
+    hintBtns[1].innerHTML = "Skip This Quote";
+    hintBtns[1].addEventListener("click", skipQuote);
+    
+    // give button functionality to both buttons
+    for(hintBtn of hintBtns){
+        hintBtn.addEventListener("click", useHint);
+        hintBtn.classList.remove("inactive");
+    }
+    
 
     // set initial score UI
     updateScore();
@@ -182,13 +204,24 @@ let checkAnswer = (e) => {
     clearTimeout(timeout);
     
     if(attempts < numOfQuotes){
-        // reset the feedback ui after 2 seconds
+        // reset the feedback ui after 1 seconds
         timeout = setTimeout(resetUI, 1000);
     }
     else{
         // game is complete!
         gameover();
     }
+}
+
+let useHint = (e) => {
+    
+    // if the button is inactive, "cancel" the action
+    if(e.target.classList.contains("inactive")){
+        return;
+    }
+
+    // deactivate the hintBtn(narrow it down button)
+    e.target.classList.add("inactive");
 }
 
 let narrowDown = (e) => {
@@ -219,10 +252,13 @@ let narrowDown = (e) => {
                 }
             }
         }
-    }
+    }   
+}
 
-    // deactivate the hintBtn(narrow it down button)
-    e.target.classList.add("inactive");    
+let skipQuote = (e) => {
+    
+    newQuote();
+    
 }
 
 function gameover(){
@@ -234,9 +270,11 @@ function gameover(){
        card.classList.add("inactive");
     }
     
+    hintBtns[0].classList.remove("inactive");
+    hintBtns[0].innerHTML = "Replay";
+    hintBtns[1].classList.add("inactive");
+    
     // set the hintBtn to act as a replay button and remove and inactivity
-    hintBtn.innerHTML = "Replay!";
-    hintBtn.addEventListener("click", setupGame);
-    hintBtn.classList.remove("inactive");
+    hintBtns[0].addEventListener("click", setupGame);
     
 }
