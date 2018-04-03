@@ -63,21 +63,31 @@ window.onload = (e) => {
     characters = document.querySelectorAll(".character");
     hintBtns = document.querySelectorAll(".hint");
     cards = document.querySelectorAll(".card");
-    tick();
     setupGame();
+    setTimeout(tick, 1000);
 };
 
 function tick(){
     setTimeout(tick, 50);
     
     if(allowAnswer){
-        timerPercent += 0.25;
-        time.style.marginRight = timerPercent - 1.5 + "%";
-        time.style.marginLeft = timerPercent - 1.5 + "%";
+        timerPercent += 0.2;
+        time.style.marginRight = timerPercent + "%";
+        time.style.marginLeft = timerPercent+ "%";
+        
+        // control the color of the timer
+        if(timerPercent <= 20){
+            time.style.background = "radial-gradient(limegreen, green)";
+        }
+        else if(timerPercent < 30 ){
+            time.style.background = "radial-gradient(lightgoldenrodyellow, yellow)";
+        }
+        else if(timerPercent > 35 ){
+            time.style.background = "radial-gradient(red, darkred)";
+        }
 
-        // 52% each.. (the 2 is to account for them "disappearing")
-        if(timerPercent >= 52){
-            pageQuote.style.backgroundColor = "red";
+        // 50% each side for a total of 100% (gone)
+        if(timerPercent >= 50){
             updateGame(0);
         }
     }
@@ -120,10 +130,6 @@ function setupGame(){
         hintBtn.addEventListener("click", useHint);
         hintBtn.classList.remove("inactive");
     }
-    
-
-    // set initial score UI
-    updateGame(0);
 }
 
 function newQuote(){
@@ -147,10 +153,12 @@ function newQuote(){
 }
 
 function resetUI(){
-    // reset quote color
-    pageQuote.style.backgroundColor = "dimgrey";
     
     allowAnswer = true;
+    
+    let scoreboard = document.querySelector(".scoreboard");
+
+    scoreboard.style.background = "radial-gradient(grey, dimgrey)";
     
     // for all elements that are inactive
     for(card of document.querySelectorAll("#cards .inactive")){
@@ -165,8 +173,16 @@ function resetUI(){
 }
 
 function updateGame(scoreChange){
+    let scoreboard = document.querySelector(".scoreboard");
+    if(scoreChange == 0){
+        scoreboard.style.background = "radial-gradient(red, darkred)";
+    }
+    else if(scoreChange == 1){
+        scoreboard.style.background = "radial-gradient(limegreen, green)";
+    }
     
     score += scoreChange;
+    attempts++;
     
     allowAnswer = false;
     
@@ -181,9 +197,8 @@ function updateGame(scoreChange){
     // if there is a pending timeout, clear it to prevent ui changing unexpectedly
     clearTimeout(timeout);
     
-    if(attempts < numOfQuotes){
-        attempts++;
-        
+    
+    if(attempts < numOfQuotes){        
         // reset the feedback ui after 1 seconds
         timeout = setTimeout(resetUI, 1000);
     }
@@ -216,12 +231,10 @@ let checkAnswer = (e) => {
     // check div clicked against the current quotes author
     // correct
     if(card.dataset.name == currentQuote.author){
-        pageQuote.style.backgroundColor = "green";
         updateGame(1);
     }
     // incorrect
     else{
-        pageQuote.style.backgroundColor = "red";
         updateGame(0);
     }
     

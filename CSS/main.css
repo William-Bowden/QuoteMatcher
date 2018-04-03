@@ -23,7 +23,6 @@ h1{
     text-align: center;
     font-size: 3em;
     padding: 10px;
-    margin: 0;
     margin-left: 5%;
 	margin-right: 5%;
 }
@@ -32,51 +31,51 @@ h1 span{
     font-size: 1.5em;
 }
 
-#quote{
+.scoreboard{
+    background: radial-gradient(dimgrey, grey);
+    margin: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 5px;
+    padding-bottom: 0;
+    background: radial-gradient(grey, dimgrey);
+}
+
+#quote, #score{
     color: white;
-    background-color: dimgrey;
     font-size: 1.25em;
     margin: 0;
-    margin-left: 25%;
-    margin-right: 25%;
     padding: 10px;
-    border-radius: 20px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-radius: 0px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.75);
+}
+
+#score{
+    padding-bottom: 0;
 }
 
 #timeRim{
-    background-color: black;
-    margin-bottom: 15px;
-    margin-left: 25%;
-    margin-right: 25%;
-    border: solid 2px black;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
+    padding-bottom: 10px;
 }
 #time{
-    background-color: white;
+    background-color: limegreen;
     height: 10px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-}
-
-#score, .hint{
-    color: white;
-    margin-left: 45%;
-    margin-right: 45%;
-    padding: 2.5px;
-    border-radius: 20px;
-    border-color: #105688;
-    background: #177EC8;
-    background: linear-gradient(top, #8fc800 0%,#438c00 100%);
+    box-shadow: 1px 1px 12px rgba(0,0,0,0.5);
 }
 
 .hint{
+    color: white;
+    padding: 2.5px;
+    font-size: 1em;
+    border-radius: 20px;
+}
+
+.hint{
+    margin-left: 45%;
+    margin-right: 45%;
     border: solid 0.5px black;
     border-right: solid 2px black;
     border-bottom: solid 2px black;
-    font-size: 1.25em;
     background-color: grey;
     cursor: pointer;
 }
@@ -96,8 +95,8 @@ h1 span{
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
-    margin-left: 12.5%;
-    margin-right: 12.5%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
 }
 
 .character{
@@ -193,10 +192,9 @@ h1 span{
     #quote{
         font-size: 1.2em;
     }
-    #score, .hint{
-        
-    margin-left: 37.5%;
-    margin-right: 37.5%;
+    .hint{
+        margin-left: 37.5%;
+        margin-right: 37.5%;
     }
     #cards{
         margin-left: 5%;
