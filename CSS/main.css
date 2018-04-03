@@ -32,24 +32,33 @@ h1 span{
     font-size: 1.5em;
 }
 
-#timeRim{
-    background-color: black;
-    margin-left: 25%;
-    margin-right: 25%;
-    border: solid 2px black;
-}
-#time{
-    background-color: white;
-}
-
 #quote{
     color: white;
     background-color: dimgrey;
     font-size: 1.25em;
+    margin: 0;
     margin-left: 25%;
     margin-right: 25%;
     padding: 10px;
     border-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#timeRim{
+    background-color: black;
+    margin-bottom: 15px;
+    margin-left: 25%;
+    margin-right: 25%;
+    border: solid 2px black;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+#time{
+    background-color: white;
+    height: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 #score, .hint{

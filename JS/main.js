@@ -68,10 +68,19 @@ window.onload = (e) => {
 };
 
 function tick(){
-    setTimeout(tick, 20);
-    timerPercent += 0.1;
-    time.style.marginRight = timerPercent + "%";
-    console.log(time.style.marginRight);
+    setTimeout(tick, 50);
+    
+    if(allowAnswer){
+        timerPercent += 0.25;
+        time.style.marginRight = timerPercent - 1.5 + "%";
+        time.style.marginLeft = timerPercent - 1.5 + "%";
+
+        // 52% each.. (the 2 is to account for them "disappearing")
+        if(timerPercent >= 52){
+            pageQuote.style.backgroundColor = "red";
+            updateGame(0);
+        }
+    }
 }
 
 function setupGame(){
@@ -81,6 +90,7 @@ function setupGame(){
     timeout = 0;
     score = 0;
     attempts = 0;
+    timerPercent = 0;
     allowAnswer = true;
     
     timer = document.querySelector("#time");
@@ -113,7 +123,7 @@ function setupGame(){
     
 
     // set initial score UI
-    updateScore();
+    updateGame(0);
 }
 
 function newQuote(){
@@ -150,11 +160,37 @@ function resetUI(){
     
     // grab a new quote
     newQuote();
+    
+    timerPercent = 0;
 }
 
-function updateScore(){
+function updateGame(scoreChange){
+    
+    score += scoreChange;
+    
+    allowAnswer = false;
+    
+    pageQuote.innerHTML += " - " + currentQuote.author;
+        
+    // set this quote as done, therefore the previous
+    prevQuote = currentQuote;
+    
     let scoreLbl = document.querySelector("#score");
     scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
+    
+    // if there is a pending timeout, clear it to prevent ui changing unexpectedly
+    clearTimeout(timeout);
+    
+    if(attempts < numOfQuotes){
+        attempts++;
+        
+        // reset the feedback ui after 1 seconds
+        timeout = setTimeout(resetUI, 1000);
+    }
+    else{
+        // game is complete!
+        gameover();
+    }
 }
 
 let checkAnswer = (e) => {
@@ -181,36 +217,14 @@ let checkAnswer = (e) => {
     // correct
     if(card.dataset.name == currentQuote.author){
         pageQuote.style.backgroundColor = "green";
-        score += 1;
-        attempts += 1;
+        updateGame(1);
     }
     // incorrect
     else{
         pageQuote.style.backgroundColor = "red";
-        
-        attempts += 1;
+        updateGame(0);
     }
     
-    pageQuote.innerHTML += " - " + currentQuote.author;
-        
-    // set this quote as done, therefore the previous
-    prevQuote = currentQuote;
-    
-    allowAnswer = false;
-    
-    updateScore();
-    
-    // if there is a pending timeout, clear it to prevent ui changing unexpectedly
-    clearTimeout(timeout);
-    
-    if(attempts < numOfQuotes){
-        // reset the feedback ui after 1 seconds
-        timeout = setTimeout(resetUI, 1000);
-    }
-    else{
-        // game is complete!
-        gameover();
-    }
 }
 
 let useHint = (e) => {
