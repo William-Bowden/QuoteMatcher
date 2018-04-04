@@ -8,10 +8,13 @@ let characters = 0;
 let hintBtns = 0;
 let timer = 0;
 let timerPercent = 0;
+let startWindow = 0;
+let startBtn = 0;
+let scoreLbl = 0;
 
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 10; //probably going to be ~15/20
+let numOfQuotes = 2; //probably going to be ~15/20
 let allowAnswer = true;
 
 let quotes = [
@@ -63,8 +66,17 @@ window.onload = (e) => {
     characters = document.querySelectorAll(".character");
     hintBtns = document.querySelectorAll(".hint");
     cards = document.querySelectorAll(".card");
-    setupGame();
-    setTimeout(tick, 1000);
+    startWindow = document.querySelector("#start");
+    startBtn = startWindow.querySelector("h2");
+    
+    startBtn.addEventListener("click", setupGame);
+    startBtn.addEventListener("click", tick);
+    
+    gameover();
+    hintBtns[0].classList.add("inactive");
+    hintBtns[0].removeEventListener("click", setupGame);
+    scoreLbl = document.querySelector("#score");
+    scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
 };
 
 function tick(){
@@ -94,6 +106,8 @@ function tick(){
 }
 
 function setupGame(){
+    startWindow.remove();
+    
     // set/reset game variables
     currentQuote = 0;
     prevQuote = 0;
@@ -191,7 +205,7 @@ function updateGame(scoreChange){
     // set this quote as done, therefore the previous
     prevQuote = currentQuote;
     
-    let scoreLbl = document.querySelector("#score");
+    scoreLbl = document.querySelector("#score");
     scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
     
     // if there is a pending timeout, clear it to prevent ui changing unexpectedly
@@ -286,10 +300,18 @@ let skipQuote = (e) => {
     
     newQuote();
     
+    timerPercent = 0;
+    
+    // for all elements that are inactive
+    for(card of document.querySelectorAll("#cards .inactive")){
+        // remove inactivity
+        card.classList.remove("inactive");
+    }
+    
 }
 
 function gameover(){
-    let scoreLbl = document.querySelector("#score");
+    scoreLbl = document.querySelector("#score");
     scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
     
     // deactivate all cards
