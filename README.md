@@ -8,7 +8,7 @@
 Match the quote displayed at the top of the page with the character who you think said it by clicking the image of the character located below the quote.
 
 ## How It Was Made
-*Quote Matcher* was created using basic/intermediate levels of HTML, CSS, and JavaScript and is hosted on RIT's web server at [this address](people.rit.edu/wjb5377/230/project2).
+*Quote Matcher* was created using basic/intermediate levels of HTML, CSS, and JavaScript and is hosted on RIT's web server at [this address](https://people.rit.edu/wjb5377/230/project2).
 
 ## Who Did What?
 A bulk of the project was done in a group setting so that both of us could catch mistakes before we could even see the result of them. There were a few more design issues that were dealt with by Robby Piwko, and a few more logical issue that were dealt with by William Bowden.
