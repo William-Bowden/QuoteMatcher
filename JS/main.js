@@ -14,7 +14,7 @@ let scoreLbl = 0;
 
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 2; //probably going to be ~15/20
+let numOfQuotes = 10; //probably going to be ~15/20
 let allowAnswer = true;
 
 let quotes = [
@@ -75,8 +75,7 @@ window.onload = (e) => {
     gameover();
     hintBtns[0].classList.add("inactive");
     hintBtns[0].removeEventListener("click", setupGame);
-    scoreLbl = document.querySelector("#score");
-    scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
+    updateScoreLbl(false);
 };
 
 function tick(){
@@ -146,46 +145,6 @@ function setupGame(){
     }
 }
 
-function newQuote(){
-    // grab a random quote
-    i = Math.floor(Math.random() * Math.floor(quotes.length));
-    currentQuote = quotes[i];
-    
-    // loop through the list of used quotes
-    for(obj of usedQuotes){
-        // if the chosen quote has been used
-        if( obj.quote == currentQuote.quote ){
-            // retry, grab a new quote
-            newQuote();
-            return;
-        }
-    }
-    
-    usedQuotes.push(currentQuote);
-    
-    pageQuote.innerHTML = `<em>"${currentQuote.quote}"</em>`;
-}
-
-function resetUI(){
-    
-    allowAnswer = true;
-    
-    let scoreboard = document.querySelector(".scoreboard");
-
-    scoreboard.style.background = "radial-gradient(grey, dimgrey)";
-    
-    // for all elements that are inactive
-    for(card of document.querySelectorAll("#cards .inactive")){
-        // remove inactivity
-        card.classList.remove("inactive");
-    }
-    
-    // grab a new quote
-    newQuote();
-    
-    timerPercent = 0;
-}
-
 function updateGame(scoreChange){
     let scoreboard = document.querySelector(".scoreboard");
     if(scoreChange == 0){
@@ -205,8 +164,7 @@ function updateGame(scoreChange){
     // set this quote as done, therefore the previous
     prevQuote = currentQuote;
     
-    scoreLbl = document.querySelector("#score");
-    scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
+    updateScoreLbl(false);
     
     // if there is a pending timeout, clear it to prevent ui changing unexpectedly
     clearTimeout(timeout);
@@ -220,6 +178,39 @@ function updateGame(scoreChange){
         // game is complete!
         gameover();
     }
+}
+
+function gameover(){
+    updateScoreLbl(true);
+    
+    disableCards(false);
+    
+    hintBtns[0].classList.remove("inactive");
+    hintBtns[0].innerHTML = "Replay";
+    // set the hintBtn to act as a replay button and remove and inactivity
+    hintBtns[0].addEventListener("click", setupGame);
+    
+    hintBtns[1].classList.add("inactive");
+}
+
+function newQuote(){
+    // grab a random quote
+    i = Math.floor(Math.random() * Math.floor(quotes.length));
+    currentQuote = quotes[i];
+    
+    // loop through the list of used quotes
+    for(obj of usedQuotes){
+        // if the chosen quote has been used
+        if( obj.quote == currentQuote.quote ){
+            // retry, grab a new quote
+            newQuote();
+            return;
+        }
+    }
+    
+    usedQuotes.push(currentQuote);
+    
+    pageQuote.innerHTML = `<em>"${currentQuote.quote}"</em>`;
 }
 
 let checkAnswer = (e) => {
@@ -272,28 +263,7 @@ let narrowDown = (e) => {
         return;
     }
     
-    let numDisabled = 0;
-    
-    // while less than 3/4ths of characters are disabled
-    while(numDisabled < (characters.length * 3/4)){
-        // check each card
-        for(card of characters){
-            // if not the author of the current quote 
-            if(currentQuote.author != card.dataset.name){
-                // 50% chance of turning inactive
-                i = Math.random();
-                if( i < 0.5 ){
-                    card.classList.add("inactive");
-                    numDisabled++;
-                    
-                    // if at least half of the characters are inactive, leave the loop
-                    if(numDisabled >= (characters.length/2)){
-                        break;
-                    }
-                }
-            }
-        }
-    }   
+    disableCards(true);
 }
 
 let skipQuote = (e) => {
@@ -302,28 +272,77 @@ let skipQuote = (e) => {
     
     timerPercent = 0;
     
+    enableCards();
+    
+}
+
+function enableCards(){
     // for all elements that are inactive
     for(card of document.querySelectorAll("#cards .inactive")){
         // remove inactivity
         card.classList.remove("inactive");
     }
+}
+
+function disableCards(onlySome){
+    if(onlySome){
+        let numDisabled = 0;
+        
+        // while less than 3/4ths of characters are disabled
+        while(numDisabled < (characters.length * 3/4)){
+            // check each card
+            for(card of characters){
+                // if not the author of the current quote 
+                if(currentQuote.author != card.dataset.name){
+                    // 50% chance of turning inactive
+                    i = Math.random();
+                    if( i < 0.5 ){
+                        card.classList.add("inactive");
+                        numDisabled++;
+
+                        // if at least half of the characters are inactive, leave the loop
+                        if(numDisabled >= (characters.length/2)){
+                            break;
+                        }
+                    }
+                }
+            }
+        }   
+    }
+    else{
+        // deactivate all cards
+        for(card of characters){
+           card.classList.add("inactive");
+        }
+    }
     
 }
 
-function gameover(){
-    scoreLbl = document.querySelector("#score");
-    scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
-    
-    // deactivate all cards
-    for(card of characters){
-       card.classList.add("inactive");
+function updateScoreLbl(gameIsOver){
+    if(gameIsOver){
+        scoreLbl = document.querySelector("#score");
+        scoreLbl.innerHTML = "You scored " + Math.ceil((score/attempts) * 100) + "%";
     }
+    else{
+        scoreLbl = document.querySelector("#score");
+        scoreLbl.innerHTML = "SCORE: " + score + " / " + attempts;
+    }
+}
+
+function resetUI(){
     
-    hintBtns[0].classList.remove("inactive");
-    hintBtns[0].innerHTML = "Replay";
-    hintBtns[1].classList.add("inactive");
+    allowAnswer = true;
     
-    // set the hintBtn to act as a replay button and remove and inactivity
-    hintBtns[0].addEventListener("click", setupGame);
+    let scoreboard = document.querySelector(".scoreboard");
+
+    scoreboard.style.background = "radial-gradient(grey, dimgrey)";
     
+    updateScoreLbl(false);
+    
+    enableCards();
+    
+    // grab a new quote
+    newQuote();
+    
+    timerPercent = 0;
 }
