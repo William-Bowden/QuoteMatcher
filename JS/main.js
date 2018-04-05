@@ -14,7 +14,7 @@ let scoreLbl = 0;
 
 let score = 0;
 let attempts = 0;
-let numOfQuotes = 10; //probably going to be ~15/20
+let numOfQuotes = 10;
 let allowAnswer = true;
 
 let quotes = [
@@ -78,6 +78,7 @@ window.onload = (e) => {
     updateScoreLbl(false);
 };
 
+// acts as an update function, updating the game timer
 function tick(){
     setTimeout(tick, 50);
     
@@ -104,6 +105,7 @@ function tick(){
     }
 }
 
+// sets up game-variables, initializing them to their intended start values
 function setupGame(){
     startWindow.remove();
     
@@ -145,6 +147,7 @@ function setupGame(){
     }
 }
 
+// update the score of the game as well as some UI that is based off of getting questions right/wrong
 function updateGame(scoreChange){
     let scoreboard = document.querySelector(".scoreboard");
     if(scoreChange == 0){
@@ -180,6 +183,7 @@ function updateGame(scoreChange){
     }
 }
 
+// cleans up the end of the game, disabling buttons that are no longer relevant and setting actions for new buttons
 function gameover(){
     updateScoreLbl(true);
     
@@ -193,6 +197,7 @@ function gameover(){
     hintBtns[1].classList.add("inactive");
 }
 
+// selects a new quote from the list of quotes, never choosing one that has already been displayed during this play-through
 function newQuote(){
     // grab a random quote
     i = Math.floor(Math.random() * Math.floor(quotes.length));
@@ -213,6 +218,7 @@ function newQuote(){
     pageQuote.innerHTML = `<em>"${currentQuote.quote}"</em>`;
 }
 
+// checks the answer against the current quotes author and updates the game accordingly
 let checkAnswer = (e) => {
     // if the user is not allowed to answer
     if(!allowAnswer){
@@ -245,6 +251,7 @@ let checkAnswer = (e) => {
     
 }
 
+// allows/disallows the use of a hint button
 let useHint = (e) => {
     
     // if the button is inactive, "cancel" the action
@@ -256,6 +263,7 @@ let useHint = (e) => {
     e.target.classList.add("inactive");
 }
 
+// randomly disables character choices to make it easier for the user (will not disable the quthor of the current quote)
 let narrowDown = (e) => {
     
     // if the button is inactive, "cancel" the action
@@ -266,6 +274,7 @@ let narrowDown = (e) => {
     disableCards(true);
 }
 
+// picks a new quote (the user does not lose points for skipping a quote)
 let skipQuote = (e) => {
     
     newQuote();
@@ -276,6 +285,7 @@ let skipQuote = (e) => {
     
 }
 
+// helper function to enable all cards
 function enableCards(){
     // for all elements that are inactive
     for(card of document.querySelectorAll("#cards .inactive")){
@@ -284,6 +294,7 @@ function enableCards(){
     }
 }
 
+// helper function to disable cards (can be called for all cards, or for some which randomly selects cards to disable)
 function disableCards(onlySome){
     if(onlySome){
         let numDisabled = 0;
@@ -318,6 +329,7 @@ function disableCards(onlySome){
     
 }
 
+// updates the player score label
 function updateScoreLbl(gameIsOver){
     if(gameIsOver){
         scoreLbl = document.querySelector("#score");
@@ -329,6 +341,7 @@ function updateScoreLbl(gameIsOver){
     }
 }
 
+// resets the UI for after a quess has been made
 function resetUI(){
     
     allowAnswer = true;
