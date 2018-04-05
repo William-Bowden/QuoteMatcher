@@ -186,6 +186,12 @@ h1 span{
     animation: none;
 }
 
+footer{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
 @keyframes hover{
     100%{
         opacity: 0.85;
